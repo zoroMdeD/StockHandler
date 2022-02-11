@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApiClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace StockHandler
 {
-    public class Components : IAction
+    public class Components : IAction, IEventHandler
     {
         protected List<Components> components { get; set; }
         public string Type { get; private set; }
         public string PartNumber { get; private set; }
         public string Size { get; private set; }
-        public event EventHandler<ActionEventArgs> MessageHandler;  //Событие для оповещения действий над коллекцией
+        public event EventHandler<ActionEventArgs> MessageHandler;
 
         public Components()
         {
@@ -24,6 +25,7 @@ namespace StockHandler
             PartNumber = partNumber;
             Size = size;
         }
+
         public List<Components> GetAll()
         {
             return components;

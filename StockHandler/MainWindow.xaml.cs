@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApiClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,6 @@ namespace StockHandler
             ComboBoxSelectType.Items.Add("Resistors");
             ComboBoxSelectType.Items.Add("Capacitors");
 
-            //Capacitor capacitor = new Capacitor("Capacitor", "ABCDEFGHIJK", "0805", "10u", "50V", "np0");
             components = new Components();
 
             components.MessageHandler += ShowAction;    //Добавляем метод для вывода на UI
@@ -37,7 +37,10 @@ namespace StockHandler
             components.TryAddComponent(new Capacitor("Capacitor", "WEQWQDQWEWEQQWEQ", "1206", "0.1u", "16V", "np0"));
             components.TryAddComponent(new Resistor("Resistor", "VBFHGUEFKEO", "0402", "240Ohm", "0.125W", "5%"));
 
-
+            //Открытие файла .xlsx
+            ConnectToExcel connectionOne = new ConnectToExcel(@"D:\!!!ЗАКАЗ РАСХОДНОГО И ИНОГО МАТЕРИАЛА.xlsx");
+            connectionOne.TryUpdateWorksheet(connectionOne);
+            List<string> s = connectionOne.GetAllWorksheetNames();
         }
         void ShowAction(object sender, ActionEventArgs e)   //Метод для добавления в событие Action
         {
@@ -45,19 +48,15 @@ namespace StockHandler
         }
         private void Button_Parsing_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Кнопка \"Parsing\" нажата");
+            TextBoxLogOut.Text += Environment.NewLine + ComboBoxSelectType.Text;
         }
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("Кнопка \"Save\" нажата");
-
             //Удаляем компонент
             components.TryRemoveComponent("ABCDEFGHIJK");
         }
         private void Button_Find_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("Кнопка \"Find\" нажата");
-
             //Upcasting и пример вывода полей класса
             Capacitor temp = (Capacitor)components.GetComponent("ABCDEFGHIJK");
             Resistor temp1 = (Resistor)components.GetComponent("VBFHGUEFKEO");
@@ -86,6 +85,4 @@ namespace StockHandler
             MessageBox.Show("Кнопка \"Analogue\" нажата");
         }
     }
-
-
 }

@@ -26,7 +26,7 @@
                 Width="0*">
             </ColumnDefinition>
             <ColumnDefinition 
-                Width="7*">
+                Width="284">
             </ColumnDefinition>
             <ColumnDefinition 
                 Width="156">
@@ -134,7 +134,6 @@
         <ComboBox
             Name="ComboBoxSelectType"
             Text="Select Type"
-            Background="White"
             Width="128"
             Height="22"
             FontSize="12"

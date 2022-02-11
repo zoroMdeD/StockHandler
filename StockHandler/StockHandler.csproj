@@ -228,7 +228,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GeneralClasses\ActionEventArgs.cs" />
+    <Compile Include="GeneralClasses\ConnectToExcel.cs" />
     <Compile Include="Components\Resistor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -247,6 +247,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneralClasses\ParserDigiKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -284,6 +285,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="ApiClient\ApiClient.csproj">
+      <Project>{698FF1D6-2F24-4FB6-AE59-047F567D97BA}</Project>
+      <Name>ApiClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

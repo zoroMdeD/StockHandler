@@ -13,3 +13,8 @@ D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\StockHandler.csproj.G
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\StockHandler.csproj.CoreCompileInputs.cache
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\StockHandler.exe
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\StockHandler.pdb
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\LinqToExcel.xml
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\StockHandler.csproj.Fody.CopyLocal.cache
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\StockHandler.csproj.CopyComplete
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\Newtonsoft.Json.xml

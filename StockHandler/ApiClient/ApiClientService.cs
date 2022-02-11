@@ -91,13 +91,6 @@ namespace ApiClient
             KeywordSearchRequest keywordSearchRequest = new KeywordSearchRequest();
             keywordSearchRequest.Keywords = keyword;
             keywordSearchRequest.RecordCount = 1;
-
-            //var request = new KeywordSearchRequest();
-            //{
-            //    Keywords = keyword ?? "STM32F103C8T6",       //P5555-ND
-            //    RecordCount = 25
-            //};
-
             await ResetExpiredAccessTokenIfNeeded();
             var postResponse = await PostAsJsonAsync(resourcePath, keywordSearchRequest);
 

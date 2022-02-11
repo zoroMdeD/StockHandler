@@ -1,8 +1,10 @@
 ﻿using ApiClient;
+using ApiClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +24,10 @@ namespace StockHandler
     public partial class MainWindow : Window
     {
         Components components;
+        ParserDigiKey parserDigiKey;
+        CancellationTokenSource cts;
+        //List<string> ProcessedPartNumbers = new List<string>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -48,41 +54,117 @@ namespace StockHandler
         }
         private void Button_Parsing_Click(object sender, RoutedEventArgs e)
         {
-            TextBoxLogOut.Text += Environment.NewLine + ComboBoxSelectType.Text;
+            TaskRun();
         }
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            //Удаляем компонент
-            components.TryRemoveComponent("ABCDEFGHIJK");
+
         }
         private void Button_Find_Click(object sender, RoutedEventArgs e)
         {
             //Upcasting и пример вывода полей класса
             Capacitor temp = (Capacitor)components.GetComponent("ABCDEFGHIJK");
-            Resistor temp1 = (Resistor)components.GetComponent("VBFHGUEFKEO");
-            Capacitor temp2 = (Capacitor)components.GetComponent("WEQWQDQWEWEQQWEQ");
-
-            TextBoxComponentInfo.Text += Environment.NewLine + temp.Type
-                                       + Environment.NewLine + temp.PartNumber
-                                       + Environment.NewLine + temp.Size
-                                       + Environment.NewLine + temp.Voltage
-                                       + Environment.NewLine + temp.TCoefficient;
-
-            TextBoxComponentInfo.Text += Environment.NewLine + temp2.Type
-                                       + Environment.NewLine + temp2.PartNumber
-                                       + Environment.NewLine + temp2.Size
-                                       + Environment.NewLine + temp2.Voltage
-                                       + Environment.NewLine + temp2.TCoefficient;
-
-            TextBoxComponentInfo.Text += Environment.NewLine + temp1.Type
-                                       + Environment.NewLine + temp1.PartNumber
-                                       + Environment.NewLine + temp1.Size
-                                       + Environment.NewLine + temp1.Resistance
-                                       + Environment.NewLine + temp1.Accuracy;
         }
         private void Button_Analogue_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Кнопка \"Analogue\" нажата");
+        }
+        async void TaskRun(/*string Path*/)
+        {
+            try
+            {
+                //Создаем здесь для того чтобы обрабатывать ивенты
+                ApiClientSettings settings = ApiClientSettings.CreateFromConfigFile();
+                ApiClientService client = new ApiClientService(settings);
+                client.MessageHandler += ShowAction;
+                parserDigiKey = new ParserDigiKey(client, settings);
+                parserDigiKey.MessageHandler += ShowAction;
+
+                await parserDigiKey.ParserInit();
+
+                cts = new CancellationTokenSource();
+                CancellationToken token = cts.Token;
+
+                //ActionWithExcel ActionWithExcel = new ActionWithExcel();
+                //ProcessedPartNumbers = Parser.FindSpecialSymbol(ActionWithExcel.UpdateExcelDoc(Path, 0));
+
+                // since this is a UI event, instantiating the Progress class
+                // here will capture the UI thread context
+                var progress = new Progress<int>(i => ProgressBar.Value = i);
+                ProgressBar.Minimum = 0;
+                //ProgressBar.Maximum = (ProcessedPartNumbers.Count - 1) * 2;
+                ProgressBar.Maximum = 2;
+                // pass this instance to the background task
+                _ = OutData(progress, token);
+            }
+            catch (Exception ex)
+            {
+                //textBox1.AppendText(Environment.NewLine + "Initialization error: " + ex.Message);
+                //label1.Text = "Error";
+                //CheckBtnParsing = false;
+                //oAuthToolStripMenuItem.Enabled = true;
+                //saveToolStripMenuItem.Enabled = true;
+                //pathToolStripMenuItem.Enabled = true;
+            }
+        }
+        async Task OutData(IProgress<int> p, CancellationToken token)
+        {
+            bool ExFlag = false;
+            string status = "Ready";
+            //textBox1.AppendText(Environment.NewLine + "Parsing...");
+            //for (int i = 0; i < ProcessedPartNumbers.Count; i++)
+            //{
+                //if (token.IsCancellationRequested)
+                //{
+                //    if (!ExFlag)
+                //        textBox1.AppendText(Environment.NewLine + "Interrupted: The process was interrupted by the user.");
+                //    label1.Text = status;
+                //    p.Report(0);
+                //    CheckBtnParsing = false;
+                //    oAuthToolStripMenuItem.Enabled = true;
+                //    saveToolStripMenuItem.Enabled = true;
+                //    pathToolStripMenuItem.Enabled = true;
+                //    cts.Dispose();
+                //    return;
+                //}
+                try
+                {
+                    await parserDigiKey.FindDescPack("STM32F103C8T6");
+                }
+                catch (AggregateException)
+                {
+                    ExFlag = true;
+                    //textBox1.AppendText(Environment.NewLine + "Request limit exceeded: 0 out of 1000 requests left");
+                    cts.Cancel();
+                    status = "Error";
+                }
+                catch (NullReferenceException)
+                {
+                    ExFlag = true;
+                    //textBox1.AppendText(Environment.NewLine + "Authorization error: The token is outdated");
+                    cts.Cancel();
+                    status = "Error";
+                }
+                catch (Exception ex)
+                {
+                    ExFlag = true;
+                    //textBox1.AppendText(Environment.NewLine + "Unhandled exception: Something went wrong " + ex.Message);
+                    cts.Cancel();
+                    status = "Error";
+                }
+                //p.Report(i);
+
+            //}
+            /*            catch(HttpResponseException ex)
+{
+    textBox1.AppendText(Environment.NewLine + "Request limit exceeded: " + ex.Message);
+    label1.Text = "Error";
+    CheckBtnParsing = false;
+    oAuthToolStripMenuItem.Enabled = true;
+    saveToolStripMenuItem.Enabled = true;
+    pathToolStripMenuItem.Enabled = true;
+}*/
+            //DocBuild.RunWorkerAsync(null);
         }
     }
 }

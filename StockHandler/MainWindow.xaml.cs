@@ -23,7 +23,7 @@ namespace StockHandler
     /// </summary>
     public partial class MainWindow : Window
     {
-        Components components;
+        ComponentsInfo componentsInfo;
         ParserDigiKey parserDigiKey;
         CancellationTokenSource cts;
         //List<string> ProcessedPartNumbers = new List<string>();
@@ -34,14 +34,14 @@ namespace StockHandler
             ComboBoxSelectType.Items.Add("Resistors");
             ComboBoxSelectType.Items.Add("Capacitors");
 
-            components = new Components();
+            componentsInfo = new ComponentsInfo();
 
-            components.MessageHandler += ShowAction;    //Добавляем метод для вывода на UI
+            componentsInfo.MessageHandler += ShowAction;    //Добавляем метод для вывода на UI
 
             //Создаем новый компонент
-            components.TryAddComponent(new Capacitor("Capacitor", "ABCDEFGHIJK", "0805", "10u", "50V", "np0"));
-            components.TryAddComponent(new Capacitor("Capacitor", "WEQWQDQWEWEQQWEQ", "1206", "0.1u", "16V", "np0"));
-            components.TryAddComponent(new Resistor("Resistor", "VBFHGUEFKEO", "0402", "240Ohm", "0.125W", "5%"));
+            componentsInfo.Add(new CapacitorModel("Capacitor", "ABCDEFGHIJK", "0805", "10u", "50V", "np0"));
+            componentsInfo.Add(new CapacitorModel("Capacitor", "WEQWQDQWEWEQQWEQ", "1206", "0.1u", "16V", "np0"));
+            componentsInfo.Add(new ResistorModel("Resistor", "VBFHGUEFKEO", "0402", "240Ohm", "0.125W", "5%"));
 
             //Открытие файла .xlsx
             ConnectToExcel connectionOne = new ConnectToExcel(@"D:\!!!ЗАКАЗ РАСХОДНОГО И ИНОГО МАТЕРИАЛА.xlsx");
@@ -63,7 +63,7 @@ namespace StockHandler
         private void Button_Find_Click(object sender, RoutedEventArgs e)
         {
             //Upcasting и пример вывода полей класса
-            Capacitor temp = (Capacitor)components.GetComponent("ABCDEFGHIJK");
+            CapacitorModel temp = (CapacitorModel)componentsInfo.GetComponent("ABCDEFGHIJK");
         }
         private void Button_Analogue_Click(object sender, RoutedEventArgs e)
         {
@@ -129,7 +129,7 @@ namespace StockHandler
                 //}
                 try
                 {
-                    await parserDigiKey.FindDescPack("STM32F103C8T6");
+                    await parserDigiKey.FindDescPack("CL05A104KA5NNNC");
                 }
                 catch (AggregateException)
                 {

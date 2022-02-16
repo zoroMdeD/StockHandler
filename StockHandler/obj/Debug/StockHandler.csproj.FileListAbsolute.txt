@@ -22,4 +22,7 @@ D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\Common.Logging.Core.x
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\Common.Logging.xml
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\System.Net.Http.Formatting.xml
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\System.Web.Http.xml
-D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\StockHandler.exe.config
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\ComponentsDB.db
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\EntityFramework.xml
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\EntityFramework.SqlServer.xml
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\System.Data.SQLite.xml

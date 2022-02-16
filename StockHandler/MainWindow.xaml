@@ -26,7 +26,7 @@
                 Width="0*">
             </ColumnDefinition>
             <ColumnDefinition 
-                Width="284">
+                Width="7*">
             </ColumnDefinition>
             <ColumnDefinition 
                 Width="156">
@@ -36,49 +36,37 @@
         <Button 
             Name="ButtonParsing" 
             Content="Parsing" 
-            Margin="0,0,84,24" 
+            Margin="12,0,84,24" 
             Click="Button_Parsing_Click" 
             Grid.Column="2" 
-            HorizontalAlignment="Right" 
-            Width="60" 
             Height="22" 
             VerticalAlignment="Bottom" 
-            FontSize="12" Grid.Row="1">
-        </Button>
+            FontSize="12" Grid.Row="1"/>
         <Button 
             Name="ButtonSave" 
             Content="Save" 
-            Margin="0,0,16,24" 
+            Margin="80,0,16,24" 
             Click="Button_Save_Click" 
-            HorizontalAlignment="Right" 
-            Width="60" 
             Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Bottom" 
-            FontSize="12" Grid.Row="1">
-        </Button>
+            FontSize="12" Grid.Row="1"/>
         <Button 
             Name="ButtonFind" 
             Content="Find" 
-            Margin="0,124,16,0" 
-            Click="Button_Find_Click" 
-            HorizontalAlignment="Right" 
-            Width="60" Grid.Column="2" 
+            Margin="80,124,16,0" 
+            Click="Button_Find_Click" Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Top" 
-            FontSize="12">
-        </Button>
+            FontSize="12"/>
         <Button 
             Name="ButtonAnalogue" 
             Content="Analogue" 
-            Margin="0,124,84,0" 
-            Click="Button_Analogue_Click" 
-            HorizontalAlignment="Right" 
-            Width="60" Grid.Column="2" 
+            Margin="12,124,84,0" 
+            Click="Button_Analogue_Click" Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Top" 
-            FontSize="12">
-        </Button>
+            FontSize="12"/>
         <TextBox 
             Name="TextBoxLogOut"
             ScrollViewer.VerticalScrollBarVisibility="Auto" 
@@ -96,32 +84,25 @@
         <TextBox
             Name="TextBoxInputValue"
             ScrollViewer.VerticalScrollBarVisibility="Disabled" 
-            Margin="0,94,16,0" 
+            Margin="12,94,16,0" 
             TextWrapping="Wrap" 
             Grid.Column="2" 
             Height="22" 
-            HorizontalAlignment="Right" 
-            Width="128" 
             VerticalAlignment="Top"
             IsReadOnly="False"
-            FontSize="12">
-        </TextBox>
+            FontSize="12"/>
         <Label 
             Content="Input value:" 
             FontSize="12"
-            Margin="0,70,44,0" 
+            Margin="40,70,44,0" 
             Grid.Column="2" 
-            HorizontalAlignment="Right" 
-            VerticalAlignment="Top" Height="26" Width="72">
-        </Label>
+            VerticalAlignment="Top" Height="26"/>
         <Label 
             Content="Select type:" 
             FontSize="12"
-            Margin="0,24,44,0" 
+            Margin="41,24,44,0" 
             Grid.Column="2" 
-            HorizontalAlignment="Right" 
-            VerticalAlignment="Top" Height="26" Width="71">
-        </Label>
+            VerticalAlignment="Top" Height="26"/>
         <Label
             Name="Percent"
             Content="0%"
@@ -134,15 +115,12 @@
         <ComboBox
             Name="ComboBoxSelectType"
             Text="Select Type"
-            Width="128"
             Height="22"
             FontSize="12"
-            Margin="0,50,16,0" 
+            Margin="12,50,16,0" 
             Grid.Column="2" 
-            HorizontalAlignment="Right" 
             VerticalAlignment="Top" 
-            IsReadOnly="True">
-        </ComboBox>
+            IsReadOnly="True"/>
         <ProgressBar 
             Name="ProgressBar"
             Grid.ColumnSpan="3" 

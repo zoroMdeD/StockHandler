@@ -22,18 +22,17 @@ namespace StockHandler
         private List<string> package;
 
         Dictionary<string, string> charReplace;
-
-        private ApiClientSettings settings;
-        private ApiClientService client;
+        public ApiClientSettings Settings { get; private set; }
+        public ApiClientService Client { get; private set; }
 
         public event EventHandler<ActionEventArgs> MessageHandler;
-
+        
         //private ActionWithExcel ActionWithExcel;
 
         public ParserDigiKey(ApiClientService client, ApiClientSettings settings)
         {
-            this.settings = settings;   //ApiClientSettings.CreateFromConfigFile();
-            this.client = client;       //new ApiClientService(settings);
+            Settings = settings;   //ApiClientSettings.CreateFromConfigFile();
+            Client = client;       //new ApiClientService(settings);
 
             charReplace = new Dictionary<string, string>();
             partNumber = new List<string>();
@@ -65,25 +64,20 @@ namespace StockHandler
         {
             try
             {
-                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Ready"));
-
-                if (settings.ExpirationDateTime < DateTime.Now)
+                if (Settings.ExpirationDateTime < DateTime.Now)
                 {
                     // Let's refresh the token
-                    var oAuth2Service = new OAuth2Service(settings);
-                    var oAuth2AccessToken = await oAuth2Service.RefreshTokenAsync();
-                    if (oAuth2AccessToken.IsError)
-                    {
-                        // Current Refresh token is invalid or expired 
-                        //return "Current Refresh token is invalid or expired ";
-                    }
-
-                    settings.UpdateAndSave(oAuth2AccessToken);
-
-                    //return "After call to refresh" + Environment.NewLine + settings.ToString();
+                var oAuth2Service = new OAuth2Service(Settings);
+                var oAuth2AccessToken = await oAuth2Service.RefreshTokenAsync();
+                if (oAuth2AccessToken.IsError)
+                {
+                    // Current Refresh token is invalid or expired 
+                    MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Current Refresh token is invalid or expired"));
                 }
-
-                //return Environment.NewLine + "Ready";
+                Settings.UpdateAndSave(oAuth2AccessToken);
+                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "After call to refresh"));
+                }
+                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Ready"));
             }
             catch (Exception)
             {
@@ -97,7 +91,7 @@ namespace StockHandler
         {
             try
             {
-                var response = await client.KeywordSearch(partNumber);
+                var response = await Client.KeywordSearch(partNumber);
 
                 subStr = "\"ExactManufacturerProductsCount\":";
                 startIndex = response.IndexOf(subStr);
@@ -106,9 +100,9 @@ namespace StockHandler
                 endIndex = tmpResponse.IndexOf(',');
                 int num = int.Parse((tmpResponse.Substring(startIndex + subStr.Length, endIndex - (startIndex + subStr.Length))).Trim(charToTrim));
                 if (num != 0)
-                    FindFamily(FindPackage(tmpResponse));
+                    FindFamily(tmpResponse);   //FindPackage(tmpResponse)
                 else
-                    FindFamily(FindPackage(response));
+                    FindFamily(response);      //FindPackage(response)
             }
             catch (Exception)
             {
@@ -126,32 +120,33 @@ namespace StockHandler
                 startIndex = response.IndexOf(subStr);
                 endIndex = response.IndexOf('}');
 
-                family.Add((response.Substring(startIndex + subStr.Length, endIndex - (startIndex + subStr.Length))).Trim(charToTrim));
+                //if(response.Contains(StorageFamilies.Capacitor.ToString()) != false)    
+                    family.Add((response.Substring(startIndex + subStr.Length, endIndex - (startIndex + subStr.Length))).Trim(charToTrim));
             }
             else
             {
                 family.Add("null");
             }
         }
-        private string FindPackage(string response)
-        {
-            subStr = "\"Parameter\":\"Package / Case\",";
-            if (response.IndexOf(subStr) != -1)
-            {
-                startIndex = response.IndexOf(subStr);
-                response = response.Substring(startIndex);
-                subStr = "\"Value\":";
-                startIndex = response.IndexOf(subStr);
-                endIndex = response.IndexOf("}");
-                package.Add((response.Substring(startIndex + subStr.Length, endIndex - (startIndex + subStr.Length))).Trim(charToTrim));
-            }
-            else
-            {
-                package.Add("null");
-            }
+        //private string FindPackage(string response)
+        //{
+        //    subStr = "\"Parameter\":\"Package / Case\",";
+        //    if (response.IndexOf(subStr) != -1)
+        //    {
+        //        startIndex = response.IndexOf(subStr);
+        //        response = response.Substring(startIndex);
+        //        subStr = "\"Value\":";
+        //        startIndex = response.IndexOf(subStr);
+        //        endIndex = response.IndexOf("}");
+        //        package.Add((response.Substring(startIndex + subStr.Length, endIndex - (startIndex + subStr.Length))).Trim(charToTrim));
+        //    }
+        //    else
+        //    {
+        //        package.Add("null");
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
         private bool FindCyrillicSymbol(string keyword)
         {
             var cyrillic = Enumerable.Range(1024, 256).Select(ch => (char)ch);

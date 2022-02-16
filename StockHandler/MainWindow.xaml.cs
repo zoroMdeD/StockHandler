@@ -2,6 +2,7 @@
 using ApiClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,7 +24,9 @@ namespace StockHandler
     /// </summary>
     public partial class MainWindow : Window
     {
-        ComponentsInfo componentsInfo;
+        ApplicationContext db;
+
+        StorageComponents storageComponents;
         ParserDigiKey parserDigiKey;
         CancellationTokenSource cts;
         //List<string> ProcessedPartNumbers = new List<string>();
@@ -31,17 +34,24 @@ namespace StockHandler
         public MainWindow()
         {
             InitializeComponent();
+
+            db = new ApplicationContext();
+            db.Capacitors.Load();
+            //db.Resistors.Load();
+            DataContext = db.Capacitors.Local.ToBindingList();
+            //DataContext = db.Resistors.Local.ToBindingList();
+
             ComboBoxSelectType.Items.Add("Resistors");
             ComboBoxSelectType.Items.Add("Capacitors");
 
-            componentsInfo = new ComponentsInfo();
+            storageComponents = new StorageComponents();
 
-            componentsInfo.MessageHandler += ShowAction;    //Добавляем метод для вывода на UI
+            storageComponents.MessageHandler += ShowAction;    //Добавляем метод для вывода на UI
 
             //Создаем новый компонент
-            componentsInfo.Add(new CapacitorModel("Capacitor", "ABCDEFGHIJK", "0805", "10u", "50V", "np0"));
-            componentsInfo.Add(new CapacitorModel("Capacitor", "WEQWQDQWEWEQQWEQ", "1206", "0.1u", "16V", "np0"));
-            componentsInfo.Add(new ResistorModel("Resistor", "VBFHGUEFKEO", "0402", "240Ohm", "0.125W", "5%"));
+            storageComponents.Add(new CapacitorModel("Capacitor", "ABCDEFGHIJK", "0805", "10u", "50V", "np0"));
+            storageComponents.Add(new CapacitorModel("Capacitor", "WEQWQDQWEWEQQWEQ", "1206", "0.1u", "16V", "np0"));
+            storageComponents.Add(new ResistorModel("Resistor", "VBFHGUEFKEO", "0402", "240Ohm", "0.125W", "5%"));
 
             //Открытие файла .xlsx
             ConnectToExcel connectionOne = new ConnectToExcel(@"D:\!!!ЗАКАЗ РАСХОДНОГО И ИНОГО МАТЕРИАЛА.xlsx");
@@ -63,11 +73,25 @@ namespace StockHandler
         private void Button_Find_Click(object sender, RoutedEventArgs e)
         {
             //Upcasting и пример вывода полей класса
-            CapacitorModel temp = (CapacitorModel)componentsInfo.GetComponent("ABCDEFGHIJK");
+            CapacitorModel temp = (CapacitorModel)storageComponents.GetComponent("ABCDEFGHIJK");
         }
         private void Button_Analogue_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Кнопка \"Analogue\" нажата");
+        }
+        private void Button_Add_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("Кнопка \"Analogue\" нажата");
+            //ComponentsWindow componentsWindow = new ComponentsWindow(new Capacitor());
+            //if (componentsWindow.ShowDialog() == true)
+            //{
+            //    Capacitor capacitor = componentsWindow.Capacitor;
+            //    db.Capacitors.Add(capacitor);
+            //    db.SaveChanges();
+            //}
+                Capacitor capacitor = new Capacitor((CapacitorModel)storageComponents.GetComponent("ABCDEFGHIJK"), 1); 
+                db.Capacitors.Add(capacitor);
+                db.SaveChanges();
         }
         async void TaskRun(/*string Path*/)
         {

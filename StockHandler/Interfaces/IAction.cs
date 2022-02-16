@@ -8,9 +8,9 @@ namespace StockHandler
 {
     public interface IAction
     {
-        List<ComponentsInfo> GetAll();
-        ComponentsInfo GetComponent(string partNumber);
-        void Add(ComponentsInfo component);
+        List<StorageComponents> GetAll();
+        StorageComponents GetComponent(string partNumber);
+        void Add(StorageComponents component);
         void Remove(string partNumber);
     }
 }

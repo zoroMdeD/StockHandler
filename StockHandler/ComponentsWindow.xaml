@@ -1,0 +1,42 @@
+﻿<Window x:Class="StockHandler.ComponentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StockHandler"
+        mc:Ignorable="d"
+        Title="ComponentsWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="PartNumber" />
+        <TextBlock Text="Capacity" Grid.Row="1" />
+        <TextBlock Text="Voltage" Grid.Row="2" />
+        <TextBlock Text="TCoefficient" Grid.Row="3" />
+        <TextBlock Text="Size" Grid.Row="4" />
+        <TextBlock Text="Count" Grid.Row="5" />
+
+        <TextBox Text="{Binding PartNumber}" Grid.Column="1" />
+        <TextBox Text="{Binding Capacity}" Grid.Column="1" Grid.Row="1" />
+        <TextBox Text="{Binding Voltage}" Grid.Column="1" Grid.Row="2" />
+        <TextBox Text="{Binding TCoefficient}" Grid.Column="1" Grid.Row="3" />
+        <TextBox Text="{Binding Size}" Grid.Column="1" Grid.Row="4" />
+        <TextBox Text="{Binding Count}" Grid.Column="1" Grid.Row="5" />
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
+            <Button IsDefault="True" Click="Accept_Click" MinWidth="60" Margin="5">OK</Button>
+            <Button IsCancel="True" MinWidth="60" Margin="5">Отмена</Button>
+        </StackPanel>
+    </Grid>
+</Window>

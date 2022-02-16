@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace StockHandler
 {
-    public class CapacitorModel : ComponentsInfo
+    public class CapacitorModel : StorageComponents
     {
-        private string Capacity { get; set; }
-        private string Voltage { get; set; }
-        private string TCoefficient { get; set; }
-        private string Size { get; set; }
+        public string Capacity { get; private set; }
+        public string Voltage { get; private set; }
+        public string TCoefficient { get; private set; }
+        public string Size { get; private set; }
 
         public CapacitorModel(string type, string partNumber, string size, string capacity, string voltage, string tCoefficient) : base(type, partNumber)
         {

@@ -248,9 +248,16 @@
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="ClassesOfDB\Capacitor.cs" />
     <Compile Include="ClassesOfDB\Resistor.cs" />
+    <Compile Include="ComponentsWindow.xaml.cs">
+      <DependentUpon>ComponentsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GeneralClasses\StorageTypes.cs" />
     <Compile Include="GeneralClasses\ConnectToExcel.cs" />
     <Compile Include="ComponentsModel\ResistorModel.cs" />
+    <Page Include="ComponentsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -260,7 +267,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ComponentsModel\CapacitorModel.cs" />
-    <Compile Include="GeneralClasses\ComponentsInfo.cs" />
+    <Compile Include="GeneralClasses\StorageComponents.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

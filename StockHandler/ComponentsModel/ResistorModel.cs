@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StockHandler
 {
-    public class ResistorModel : ComponentsInfo
+    public class ResistorModel : StorageComponents
     {
         private string Resistance { get; set; }
         private string Power { get; set; }

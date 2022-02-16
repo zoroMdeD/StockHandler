@@ -55,7 +55,8 @@
             Name="ButtonFind" 
             Content="Find" 
             Margin="80,124,16,0" 
-            Click="Button_Find_Click" Grid.Column="2" 
+            Click="Button_Find_Click" 
+            Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Top" 
             FontSize="12"/>
@@ -63,10 +64,21 @@
             Name="ButtonAnalogue" 
             Content="Analogue" 
             Margin="12,124,84,0" 
-            Click="Button_Analogue_Click" Grid.Column="2" 
+            Click="Button_Analogue_Click" 
+            Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Top" 
             FontSize="12"/>
+        <Button 
+            Name="ButtonAdd"
+            Content="Add" 
+            Grid.Column="2" 
+            HorizontalAlignment="Left" 
+            Margin="51,55,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"
+            Click="Button_Add_Click"
+            Width="75"/>
         <TextBox 
             Name="TextBoxLogOut"
             ScrollViewer.VerticalScrollBarVisibility="Auto" 

@@ -246,6 +246,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationContext.cs" />
+    <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="ClassesOfDB\Capacitor.cs" />
     <Compile Include="ClassesOfDB\Resistor.cs" />
     <Compile Include="CapacitorsWindow.xaml.cs">
@@ -254,6 +255,7 @@
     <Compile Include="GeneralClasses\StorageTypes.cs" />
     <Compile Include="GeneralClasses\ConnectToExcel.cs" />
     <Compile Include="ComponentsModel\ResistorModel.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="ResistorsWindow.xaml.cs">
       <DependentUpon>ResistorsWindow.xaml</DependentUpon>
     </Compile>

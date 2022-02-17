@@ -37,7 +37,10 @@
             Name="ButtonParsing" 
             Content="Parsing" 
             Margin="12,0,84,24" 
+            
             Click="Button_Parsing_Click" 
+            Command="{Binding parsingCommand}"
+            
             Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Bottom" 
@@ -140,7 +143,10 @@
             Margin="16,0,44,8"
             VerticalAlignment="Bottom"
             Background="Black"
-            Foreground="Yellow" Grid.Row="1"/>
+            Foreground="Yellow" Grid.Row="1"
+            Command="{Binding instigateWorkCommand}"
+            Value="{Binding currentProgress, Mode=OneWay}" 
+            Visibility="{Binding progressVisibility}"/>
         <Menu
             Grid.ColumnSpan="3" 
             Height="22" 

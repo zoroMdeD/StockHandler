@@ -26,5 +26,7 @@ D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\ComponentsDB.db
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\EntityFramework.xml
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\EntityFramework.SqlServer.xml
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\bin\Debug\System.Data.SQLite.xml
-D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\ComponentsWindow.g.cs
-D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\ComponentsWindow.baml
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\CapacitorsWindow.g.cs
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\ResistorsWindow.g.cs
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\CapacitorsWindow.baml
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\ResistorsWindow.baml

@@ -14,6 +14,6 @@ namespace StockHandler
 
         }
         public DbSet<Capacitor> Capacitors { get; set; }
-       // public DbSet<Resistor> Resistors { get; set; }
+        public DbSet<Resistor> Resistors { get; set; }
     }
 }

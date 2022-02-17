@@ -37,8 +37,8 @@ namespace StockHandler
 
             db = new ApplicationContext();
             db.Capacitors.Load();
-            //db.Resistors.Load();
-            DataContext = db.Capacitors.Local.ToBindingList();
+            db.Resistors.Load();
+            //DataContext = db.Capacitors.Local.ToBindingList();
             //DataContext = db.Resistors.Local.ToBindingList();
 
             ComboBoxSelectType.Items.Add("Resistors");
@@ -82,16 +82,43 @@ namespace StockHandler
         private void Button_Add_Click(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show("Кнопка \"Analogue\" нажата");
-            //ComponentsWindow componentsWindow = new ComponentsWindow(new Capacitor());
-            //if (componentsWindow.ShowDialog() == true)
-            //{
-            //    Capacitor capacitor = componentsWindow.Capacitor;
-            //    db.Capacitors.Add(capacitor);
-            //    db.SaveChanges();
-            //}
+            if (ComboBoxSelectType.Text == "Resistors")
+            {
+                DataContext = db.Resistors.Local.ToBindingList();
+                ResistorsWindow resistorssWindow = new ResistorsWindow(new Resistor());
+                if (resistorssWindow.ShowDialog() == true)
+                {
+                    Resistor resistor = resistorssWindow.Resistor;
+                    db.Resistors.Add(resistor);
+                    db.SaveChanges();
+                }
+            }
+            else if(ComboBoxSelectType.Text == "Capacitors")
+            {
+                DataContext = db.Capacitors.Local.ToBindingList();
+                CapacitorsWindow capacitorsWindow = new CapacitorsWindow(new Capacitor());
+                if (capacitorsWindow.ShowDialog() == true)
+                {
+                    Capacitor capacitor = capacitorsWindow.Capacitor;
+                    db.Capacitors.Add(capacitor);
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выбери блять ЭКБ!!!");
+            }
+            /*
+                DataContext = db.Capacitors.Local.ToBindingList();
                 Capacitor capacitor = new Capacitor((CapacitorModel)storageComponents.GetComponent("ABCDEFGHIJK"), 1); 
                 db.Capacitors.Add(capacitor);
                 db.SaveChanges();
+
+                DataContext = db.Resistors.Local.ToBindingList();
+                Resistor resistor = new Resistor((ResistorModel)storageComponents.GetComponent("VBFHGUEFKEO"), 1);
+                db.Resistors.Add(resistor);
+                db.SaveChanges();
+            */
         }
         async void TaskRun(/*string Path*/)
         {

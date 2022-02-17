@@ -8,10 +8,10 @@ namespace StockHandler
 {
     public class ResistorModel : StorageComponents
     {
-        private string Resistance { get; set; }
-        private string Power { get; set; }
-        private string Accuracy { get; set; }
-        private string Size { get; set; }
+        public string Resistance { get; private set; }
+        public string Power { get; private set; }
+        public string Accuracy { get; private set; }
+        public string Size { get; private set; }
 
         public ResistorModel(string type, string partNumber, string size, string resistance, string power, string accuracy) : base(type, partNumber)
         {

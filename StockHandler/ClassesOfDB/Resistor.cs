@@ -92,7 +92,22 @@ namespace StockHandler
             }
         }
 
+        public Resistor()
+        {
 
+        }
+
+        public Resistor(ResistorModel resistor, int count)
+        {
+            //CapacitorModel temp = (CapacitorModel)components.GetComponent("ABCDEFGHIJK");
+            //temp.
+            PartNumber = resistor.PartNumber;
+            Resistance = resistor.Resistance;
+            Power = resistor.Power;
+            Accuracy = resistor.Accuracy;
+            Size = resistor.Size;
+            Count = count;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

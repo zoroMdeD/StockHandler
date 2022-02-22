@@ -245,6 +245,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActionWithExcel.cs" />
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="ClassesOfDB\Capacitor.cs" />
@@ -252,9 +253,11 @@
     <Compile Include="CapacitorsWindow.xaml.cs">
       <DependentUpon>CapacitorsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ElementsTypes.cs" />
     <Compile Include="GeneralClasses\StorageTypes.cs" />
     <Compile Include="GeneralClasses\ConnectToExcel.cs" />
     <Compile Include="ComponentsModel\ResistorModel.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ResistorsWindow.xaml.cs">
       <DependentUpon>ResistorsWindow.xaml</DependentUpon>

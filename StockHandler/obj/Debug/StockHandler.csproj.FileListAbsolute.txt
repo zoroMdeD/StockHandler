@@ -30,3 +30,4 @@ D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\CapacitorsWindow.g.cs
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\ResistorsWindow.g.cs
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\CapacitorsWindow.baml
 D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\ResistorsWindow.baml
+D:\STUDIES\C#_exercise\StockHandler\StockHandler\obj\Debug\GeneratedInternalTypeHelper.g.cs

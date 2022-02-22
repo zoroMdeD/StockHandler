@@ -37,10 +37,7 @@
             Name="ButtonParsing" 
             Content="Parsing" 
             Margin="12,0,84,24" 
-            
-            Click="Button_Parsing_Click" 
-            Command="{Binding parsingCommand}"
-            
+            Command="{Binding ParsingCommand}"
             Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Bottom" 
@@ -49,7 +46,6 @@
             Name="ButtonSave" 
             Content="Save" 
             Margin="80,0,16,24" 
-            Click="Button_Save_Click" 
             Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Bottom" 
@@ -58,7 +54,6 @@
             Name="ButtonFind" 
             Content="Find" 
             Margin="80,124,16,0" 
-            Click="Button_Find_Click" 
             Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Top" 
@@ -67,7 +62,6 @@
             Name="ButtonAnalogue" 
             Content="Analogue" 
             Margin="12,124,84,0" 
-            Click="Button_Analogue_Click" 
             Grid.Column="2" 
             Height="22" 
             VerticalAlignment="Top" 
@@ -80,22 +74,27 @@
             Margin="51,55,0,0" 
             Grid.Row="1" 
             VerticalAlignment="Top"
-            Click="Button_Add_Click"
-            Width="75"/>
+            Width="75"
+            Command="{Binding AddCommand}"/>
         <TextBox 
             Name="TextBoxLogOut"
             ScrollViewer.VerticalScrollBarVisibility="Auto" 
             Margin="16,15,3,24" 
             TextWrapping="Wrap" 
             Grid.Column="1" 
-            FontSize="12" Text="LogOut" Grid.Row="1"/>
+            FontSize="12"
+            Grid.Row="1"
+            IsReadOnly="true"
+            Text="{Binding TextLogOut}"/>
         <TextBox 
             Name="TextBoxComponentInfo"
             ScrollViewer.VerticalScrollBarVisibility="Auto" 
             Margin="16,32,3,0" 
             TextWrapping="Wrap" 
             Grid.Column="1" 
-            FontSize="12" Text="ComponentInfo"/>
+            FontSize="12" 
+            IsReadOnly="true"
+            Text="ComponentInfo"/>
         <TextBox
             Name="TextBoxInputValue"
             ScrollViewer.VerticalScrollBarVisibility="Disabled" 
@@ -127,15 +126,18 @@
             HorizontalAlignment="Right" 
             VerticalAlignment="Bottom" Height="21" Width="21" Grid.Row="1">
         </Label>
-        <ComboBox
-            Name="ComboBoxSelectType"
-            Text="Select Type"
-            Height="22"
-            FontSize="12"
-            Margin="12,50,16,0" 
-            Grid.Column="2" 
-            VerticalAlignment="Top" 
-            IsReadOnly="True"/>
+        <StackPanel  Grid.Column="2"
+             Grid.Row="0" Margin="14,48,16,0">
+            <StackPanel.Resources>
+                <local:ElementsTypes x:Key="Types"/>
+            </StackPanel.Resources>
+            <ComboBox Name="ComboBoxSelectType"
+                ItemsSource="{StaticResource Types}"
+                SelectedValue="{Binding TextType}"
+                IsEditable="true"
+                IsReadOnly="true"/>
+        </StackPanel>
+
         <ProgressBar 
             Name="ProgressBar"
             Grid.ColumnSpan="3" 
@@ -144,9 +146,9 @@
             VerticalAlignment="Bottom"
             Background="Black"
             Foreground="Yellow" Grid.Row="1"
-            Command="{Binding instigateWorkCommand}"
-            Value="{Binding currentProgress, Mode=OneWay}" 
-            Visibility="{Binding progressVisibility}"/>
+            Value="{Binding CurrentProgress, Mode=OneWay}"
+            Minimum="{Binding MinValue}"
+            Maximum="{Binding MaxValue}"/>
         <Menu
             Grid.ColumnSpan="3" 
             Height="22" 

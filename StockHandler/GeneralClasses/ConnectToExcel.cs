@@ -10,24 +10,24 @@ namespace StockHandler
     public class ConnectToExcel
     {
         public string PathExcelFile { get; private set; }
-        public ExcelQueryFactory UrlConnexion { get; private set; }
+        public ExcelQueryFactory UrlConnection { get; private set; }
         private List<string> listWorksheetNames { get; set; }
 
         public ConnectToExcel(string path)
         {
             listWorksheetNames = new List<string>();
             PathExcelFile = path;
-            UrlConnexion = new ExcelQueryFactory(PathExcelFile);
+            UrlConnection = new ExcelQueryFactory(PathExcelFile);
         }
         public List<string> GetAllWorksheetNames()
         {
             return listWorksheetNames;
         }
-        public List<string> TryUpdateWorksheet(ConnectToExcel ConxObject)
+        public List<string> UpdateWorksheet(ConnectToExcel connectToExcel)
         {
             try
             {
-                var worksheetNames = ConxObject.UrlConnexion.GetWorksheetNames();
+                var worksheetNames = connectToExcel.UrlConnection.GetWorksheetNames();
                 foreach (var result in worksheetNames)
                 {
                     listWorksheetNames.Add(result);

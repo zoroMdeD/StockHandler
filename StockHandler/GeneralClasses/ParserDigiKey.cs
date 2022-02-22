@@ -29,10 +29,11 @@ namespace StockHandler
         
         //private ActionWithExcel ActionWithExcel;
 
-        public ParserDigiKey(ApiClientService client, ApiClientSettings settings)
+        public ParserDigiKey(EventHandler<ActionEventArgs> MessageHandler)
         {
-            Settings = settings;   //ApiClientSettings.CreateFromConfigFile();
-            Client = client;       //new ApiClientService(settings);
+            Settings = ApiClientSettings.CreateFromConfigFile();
+            Client = new ApiClientService(Settings, MessageHandler);
+            this.MessageHandler = MessageHandler;
 
             charReplace = new Dictionary<string, string>();
             partNumber = new List<string>();

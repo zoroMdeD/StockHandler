@@ -42,8 +42,9 @@ namespace ApiClient
         /// </summary>
         public HttpClient HttpClient { get; private set; }
 
-        public ApiClientService(ApiClientSettings clientSettings)
+        public ApiClientService(ApiClientSettings clientSettings, EventHandler<ActionEventArgs> MessageHandler)
         {
+            this.MessageHandler = MessageHandler;
             ClientSettings = clientSettings ?? throw new ArgumentNullException(nameof(clientSettings));
             Initialize();
         }

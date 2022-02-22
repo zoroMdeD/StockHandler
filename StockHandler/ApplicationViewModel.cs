@@ -1,5 +1,6 @@
 ﻿using ApiClient;
 using ApiClient.Models;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,7 @@ namespace StockHandler
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<ActionEventArgs> MessageHandler;
 
+        ConnectToExcel connectToExcel;
         private List<string> listOfComponents;
         private StorageComponents storageComponents;
         static BackgroundWorker DocBuild;
@@ -158,12 +160,12 @@ namespace StockHandler
             {
                 return parsingCommand ?? (parsingCommand = new RelayCommand((o) => 
                 { 
-                    TaskRun("Path"); 
+                    //TaskRun(PathToReadFile); 
                 }));
             }
         }
 
-        private async void TaskRun(string Path)
+        private async void TaskRun(string path)
         {
             try
             {
@@ -173,7 +175,7 @@ namespace StockHandler
                 CancellationToken token = cts.Token;
 
                 ActionWithExcel actionWithExcel = new ActionWithExcel();
-                listOfComponents = actionWithExcel.GetDataFromDocument("Path","NameSheet");
+                listOfComponents = actionWithExcel.GetDataFromDocument(path, "NameSheet");
 
                 // since this is a UI event, instantiating the Progress class
                 // here will capture the UI thread context
@@ -259,8 +261,32 @@ namespace StockHandler
         {
             TextLogOut += Environment.NewLine + $"{e.Message}";
         }
-        // команда добавления
-        public RelayCommand AddCommand
+        public RelayCommand OpenFileCommand
+        {
+            get
+            {
+                return openFileCommand ?? (openFileCommand = new RelayCommand((o) =>
+                {
+                    connectToExcel = new ConnectToExcel(OpenReadFile());
+                    List<string> tmpListSheetNames = connectToExcel.UpdateWorksheet(connectToExcel);
+                    foreach (string item in tmpListSheetNames)
+                    {
+                        //comboBox1.Items.Add(item);
+                    }
+                    //textBox2.AppendText($"Source file: {PathInfoDescriptionsChipDip}");  //for more info
+                }));
+            }
+        }
+        private string OpenReadFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel files (*.xls;*.xlsx;)|*.xls;*.xlsx";
+            openFileDialog.FileName = "Select file";
+            if (openFileDialog.ShowDialog() == true)
+                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + $"File selected: {openFileDialog.FileName}"));
+            return openFileDialog.FileName;
+        }
+        public RelayCommand AddCommand  // команда добавления
         {
             get
             {

@@ -36,7 +36,7 @@
         <Button 
             Name="ButtonParsing" 
             Content="Parsing" 
-            Margin="12,0,84,24" 
+            Margin="14,0,84,24" 
             Command="{Binding ParsingCommand}"
             Grid.Column="2" 
             Height="22" 
@@ -54,40 +54,40 @@
         <Button 
             Name="ButtonFind" 
             Content="Find" 
-            Margin="0,218,16,4" 
+            Margin="0,0,16,4"
             Grid.Column="2" 
             Height="22" 
             Width="60"
             HorizontalAlignment="Right"
-            VerticalAlignment="Top" 
+            VerticalAlignment="Bottom" 
             FontSize="12"/>
         <Button 
             Name="ButtonAnalogue" 
             Content="Analogue" 
-            Margin="12,128,0,0" 
+            Margin="14,0,84,4" 
             Grid.Column="2" 
-            Height="22"
-            Width="60"
+            Height="22"            
             HorizontalAlignment="Left"
-            VerticalAlignment="Top" 
+            VerticalAlignment="Bottom" 
             FontSize="12"/>
         <Button 
             Name="ButtonAdd"
             Content="Add" 
             Grid.Column="2" 
-            HorizontalAlignment="Right" 
-            Margin="0,128,16,0" 
+            HorizontalAlignment="Right"  
+            Margin="0,88,16,0"
             Grid.Row="0" 
             Height="22"
             VerticalAlignment="Top"
             Width="60"
             Command="{Binding AddCommand}"/>
+        <!--Margin="0,158,16,0"-->
         <Button 
             Name="ButtonEdit"
             Content="Edit" 
             Grid.Column="2" 
             HorizontalAlignment="Right" 
-            Margin="0,158,16,0" 
+            Margin="0,118,16,0" 
             Grid.Row="0" 
             Height="22"
             VerticalAlignment="Top"
@@ -98,7 +98,7 @@
             Content="Delete" 
             Grid.Column="2" 
             HorizontalAlignment="Right" 
-            Margin="0,188,16,0" 
+            Margin="0,148,16,4"
             Grid.Row="0" 
             Height="22"
             VerticalAlignment="Top"
@@ -126,27 +126,28 @@
         <TextBox
             Name="TextBoxInputValue"
             ScrollViewer.VerticalScrollBarVisibility="Disabled" 
-            Margin="12,94,16,0" 
+            Margin="14,0,16,34" 
             TextWrapping="Wrap" 
             Grid.Column="2" 
             Height="22" 
-            VerticalAlignment="Top"
+            VerticalAlignment="Bottom"
             IsReadOnly="False"
             FontSize="12"/>
         <Label 
-            Content="Input value:" 
+            Content="Find component:" 
             FontSize="12"
-            Margin="40,70,44,0" 
+            Margin="28,0,28,56" 
             Grid.Column="2" 
-            VerticalAlignment="Top" Height="26"/>
+            VerticalAlignment="Bottom" 
+            Height="26"/>
         <Label 
             Content="Select type:" 
             FontSize="12"
-            Margin="41,24,44,0" 
+            Margin="41,32,44,0" 
             Grid.Column="2" 
             VerticalAlignment="Top" Height="26"/>
         <Label
-            Name="Percent"
+            Name="LabelPercent"
             Content="{Binding PercentLoad}"
             FontSize="8"
             Margin="0,0,16,1" 
@@ -160,14 +161,36 @@
         <StackPanel  
             Grid.Column="2"
             Grid.Row="0" 
-            Margin="14,48,16,0">
+            Margin="14,58,16,0">
             <StackPanel.Resources>
-                <local:ElementsTypes x:Key="Types"/>
+                <local:ElementsTypesStorage x:Key="Types"/>
             </StackPanel.Resources>
             <ComboBox 
                 Name="ComboBoxSelectType"
+                Height="22"
                 ItemsSource="{StaticResource Types}"
                 SelectedValue="{Binding TextType}"
+                IsEditable="true"
+                IsReadOnly="true"/>
+        </StackPanel>
+        <Label 
+            Content="Select sheet:" 
+            FontSize="12"
+            Margin="40,0,40,76" 
+            Grid.Column="2" 
+            Grid.Row="1" 
+            VerticalAlignment="Bottom" 
+            Height="26"/>
+        <StackPanel  
+            Grid.Column="2"
+            Grid.Row="1" 
+            Margin="14,0,16,54" 
+            Height="22" 
+            VerticalAlignment="Bottom">
+            <ComboBox 
+                Name="ComboBoxSelectSheet"
+                ItemsSource="{Binding ListOfSheets}"
+                SelectedValue="{Binding TextSheet}"
                 IsEditable="true"
                 IsReadOnly="true"/>
         </StackPanel>

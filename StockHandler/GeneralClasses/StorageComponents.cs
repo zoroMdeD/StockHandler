@@ -24,13 +24,6 @@ namespace StockHandler
             components = new List<StorageComponents>();
         }
         /// <summary>
-        /// Constructor for the enumeration
-        /// </summary>
-        public StorageComponents(List<StorageComponents> components)
-        {
-            this.components = components;
-        }
-        /// <summary>
         /// Constructor for inheritors
         /// </summary>
         public StorageComponents(string type, string partNumber)

@@ -33,7 +33,12 @@ namespace StockHandler
                                select a;
                 foreach (var result in GetSheet)
                 {
-                    if (!string.IsNullOrEmpty(result.KeyWord) && (result.KeyWord.Contains("резистор") || result.KeyWord.Contains("конденсатор")))
+                    if (!string.IsNullOrEmpty(result.KeyWord) && (result.KeyWord.Contains("РЕЗИСТОР")  || result.KeyWord.Contains("КОНДЕНСАТОР")  || 
+                                                                  result.KeyWord.Contains("РЕЗИСТОРЫ") || result.KeyWord.Contains("КОНДЕНСАТОРЫ") || 
+                                                                  result.KeyWord.Contains("резистор")  || result.KeyWord.Contains("конденсатор")  || 
+                                                                  result.KeyWord.Contains("резисторы") || result.KeyWord.Contains("конденсаторы") ||
+                                                                  result.KeyWord.Contains("Резистор")  || result.KeyWord.Contains("Конденсатор")  ||
+                                                                  result.KeyWord.Contains("Резисторы") || result.KeyWord.Contains("Конденсаторы")))
                         ListOfComponents.Add(result.KeyWord);
                 }
                 return ListOfComponents;

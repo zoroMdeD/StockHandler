@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace StockHandler
 {
-    public class ElementsTypes : ObservableCollection<string>
+    public class ElementsTypesStorage : ObservableCollection<string>
     {
-        public ElementsTypes()
+        public ElementsTypesStorage()
         {
             Add("Resistors");
             Add("Capacitors");

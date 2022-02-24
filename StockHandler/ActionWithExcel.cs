@@ -9,20 +9,20 @@ namespace StockHandler
     public class ActionWithExcel
     {
         private List<string> listNameSheets { get; set; }
-        private ConnectToExcel ConnectToExcel { get; set; }
+        public ConnectToExcel connectToExcel { get; private set; }
         public Data Data { get; private set; }
 
         public ActionWithExcel()
         {
 
         }
-        public List<string> GetDataFromDocument(string path, string nameSheet)
+        public List<string> GetDataFromDocument(string path, string nameSheet, ConnectToExcel connectToExcel)
         {
             int numSheet = 0;
             try
             {
-                ConnectToExcel = new ConnectToExcel(path);
-                listNameSheets = ConnectToExcel.UpdateWorksheet(ConnectToExcel);
+                this.connectToExcel = connectToExcel;
+                listNameSheets = connectToExcel.GetAllWorksheetNames();
                 for (int i = 0; i < listNameSheets.Count; i++)
                 {
                     if (listNameSheets[i].Contains(nameSheet))
@@ -32,7 +32,7 @@ namespace StockHandler
                     }
                 }
                 Data = new Data(listNameSheets[numSheet]);
-                return Data.GetData(ConnectToExcel);
+                return Data.GetData(connectToExcel);
             }
             catch (Exception)
             {

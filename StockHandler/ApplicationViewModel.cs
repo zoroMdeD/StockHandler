@@ -52,17 +52,23 @@ namespace StockHandler
         IEnumerable<Resistor> resistors;
         IEnumerable<Capacitor> capacitors;
 
+        #region Fields for LaberPercent
+        private string percentLoad;
+        #endregion
         #region Fields for ProgressBar
         private int currentProgress;
         private int minValue;
         private int maxValue;
         #endregion
-        
         #region Fields for TextBoxLogOut
         private string textLogOut;
         #endregion
         #region Fields for ComboBoxSelectType
         private string textType;
+        #endregion
+        #region Fields for ComboBoxSelectSheet
+        private List<string> listOfSheets;
+        private string textSheet;
         #endregion
 
         public IEnumerable<Resistor> Resistors
@@ -95,6 +101,8 @@ namespace StockHandler
             listOfComponents = new List<string>();
             MessageHandler += ShowAction;
 
+            PercentLoad = $"{CurrentProgress}%";
+
             DocBuild = new BackgroundWorker();
             DocBuild.WorkerSupportsCancellation = true;
             DocBuild.WorkerReportsProgress = true;
@@ -102,6 +110,17 @@ namespace StockHandler
             DocBuild.ProgressChanged += DocBuild_ProgressChanged;
             DocBuild.RunWorkerCompleted += DocBuild_RunWorkerCompleted;
         }
+        #region Properties for LabelPercent
+        public string PercentLoad
+        {
+            get { return percentLoad; }
+            private set
+            {
+                percentLoad = value;
+                OnPropertyChanged("PercentLoad");
+            }
+        }
+        #endregion
         #region Properties for ProgressBar 
         public int CurrentProgress
         {
@@ -142,6 +161,26 @@ namespace StockHandler
             }
         }
         #endregion
+        #region Properties for ComboBoxSelectSheet
+        public List<string> ListOfSheets
+        {
+            get { return listOfSheets; }
+            private set
+            {
+                listOfSheets = value;
+                OnPropertyChanged("ListOfSheets");
+            }
+        }
+        public string TextSheet
+        {
+            get { return textSheet; }
+            set
+            {
+                textSheet = value;
+                OnPropertyChanged("TextSheet");
+            }
+        }
+        #endregion
         #region Properties for TextBoxLogOut
         public string TextLogOut
         {
@@ -160,7 +199,7 @@ namespace StockHandler
             {
                 return parsingCommand ?? (parsingCommand = new RelayCommand((o) => 
                 { 
-                    //TaskRun(PathToReadFile); 
+                    TaskRun(connectToExcel.PathExcelFile); 
                 }));
             }
         }
@@ -175,15 +214,16 @@ namespace StockHandler
                 CancellationToken token = cts.Token;
 
                 ActionWithExcel actionWithExcel = new ActionWithExcel();
-                listOfComponents = actionWithExcel.GetDataFromDocument(path, "NameSheet");
-
-                // since this is a UI event, instantiating the Progress class
-                // here will capture the UI thread context
-                var progress = new Progress<int>(i => CurrentProgress = i);
-                MinValue = 0;
-                MaxValue = (listOfComponents.Count - 1) * 2;    //Колво элементов (*2 это для прогрессБара, см ниже)
-                // pass this instance to the background task
-                _ = OutData(progress, token, parserDigiKey, cts);
+                listOfComponents = actionWithExcel.GetDataFromDocument(path, TextSheet, connectToExcel);
+                if (listOfComponents.Count != 0)
+                {
+                    var progress = new Progress<int>(i => CurrentProgress = i);     //Since this is a UI event, instantiating the Progress class here will capture the UI thread context
+                    MinValue = 0;
+                    MaxValue = (listOfComponents.Count - 1) * 2;
+                    await OutData(progress, token, parserDigiKey, cts);   //Pass this instance to the background task
+                }
+                else
+                    MessageHandler?.Invoke(this, new ActionEventArgs("Error: Keyword not found"));
             }
             catch (Exception ex)
             {
@@ -194,20 +234,20 @@ namespace StockHandler
         {
             bool ExFlag = false;
             string status = "Ready";
-            MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Parsing..."));
+            MessageHandler?.Invoke(this, new ActionEventArgs("Parsing..."));
             for (int i = 0; i < listOfComponents.Count; i++)
             {
                 if (token.IsCancellationRequested)
                 {
                     if (!ExFlag)
-                        MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Interrupted: The process was interrupted by the user"));
-                    MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + status));
+                        MessageHandler?.Invoke(this, new ActionEventArgs("Interrupted: The process was interrupted by the user"));
+                    MessageHandler?.Invoke(this, new ActionEventArgs(status));
                     p.Report(0);
                     //CheckBtnParsing = false;
                     cts.Dispose();
                     return;
                 }
-                await parserDigiKey.FindDescPack("CL05A104KA5NNNC");
+                await parserDigiKey.FindDescPack(listOfComponents[i]);
                 p.Report(i);
             }
             DocBuild.RunWorkerAsync(null);
@@ -245,21 +285,24 @@ namespace StockHandler
         {
             if (e.Cancelled)
             {
-                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Interrupted: The process was interrupted by the user"));
+                MessageHandler?.Invoke(this, new ActionEventArgs("Interrupted: The process was interrupted by the user"));
             }
             else if (e.Error != null)
             {
-                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Interrupted: There is no access to some files or the files are occupied by another process"));
+                MessageHandler?.Invoke(this, new ActionEventArgs("Interrupted: There is no access to some files or the files are occupied by another process"));
             }
             else
             {
-                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + e.Result.ToString()));
+                MessageHandler?.Invoke(this, new ActionEventArgs(e.Result.ToString()));
             }
         }
         #endregion
         void ShowAction(object sender, ActionEventArgs e)   //Метод для добавления в событие Action
         {
-            TextLogOut += Environment.NewLine + $"{e.Message}";
+            if(TextLogOut != null)
+                TextLogOut += Environment.NewLine + $"{e.Message}";
+            else
+                TextLogOut += $"{e.Message}";
         }
         public RelayCommand OpenFileCommand
         {
@@ -269,11 +312,7 @@ namespace StockHandler
                 {
                     connectToExcel = new ConnectToExcel(OpenReadFile());
                     List<string> tmpListSheetNames = connectToExcel.UpdateWorksheet(connectToExcel);
-                    foreach (string item in tmpListSheetNames)
-                    {
-                        //comboBox1.Items.Add(item);
-                    }
-                    //textBox2.AppendText($"Source file: {PathInfoDescriptionsChipDip}");  //for more info
+                    ListOfSheets = tmpListSheetNames;
                 }));
             }
         }
@@ -283,7 +322,7 @@ namespace StockHandler
             openFileDialog.Filter = "Excel files (*.xls;*.xlsx;)|*.xls;*.xlsx";
             openFileDialog.FileName = "Select file";
             if (openFileDialog.ShowDialog() == true)
-                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + $"File selected: {openFileDialog.FileName}"));
+                MessageHandler?.Invoke(this, new ActionEventArgs($"File selected: {openFileDialog.FileName}"));
             return openFileDialog.FileName;
         }
         public RelayCommand AddCommand  // команда добавления

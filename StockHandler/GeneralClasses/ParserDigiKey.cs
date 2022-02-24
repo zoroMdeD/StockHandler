@@ -68,17 +68,17 @@ namespace StockHandler
                 if (Settings.ExpirationDateTime < DateTime.Now)
                 {
                     // Let's refresh the token
-                var oAuth2Service = new OAuth2Service(Settings);
-                var oAuth2AccessToken = await oAuth2Service.RefreshTokenAsync();
-                if (oAuth2AccessToken.IsError)
-                {
-                    // Current Refresh token is invalid or expired 
-                    MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Current Refresh token is invalid or expired"));
+                    var oAuth2Service = new OAuth2Service(Settings);
+                    var oAuth2AccessToken = await oAuth2Service.RefreshTokenAsync();
+                    if (oAuth2AccessToken.IsError)
+                    {
+                        // Current Refresh token is invalid or expired 
+                        MessageHandler?.Invoke(this, new ActionEventArgs("Current Refresh token is invalid or expired"));
+                    }
+                    Settings.UpdateAndSave(oAuth2AccessToken);
+                    MessageHandler?.Invoke(this, new ActionEventArgs("After call to refresh"));
                 }
-                Settings.UpdateAndSave(oAuth2AccessToken);
-                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "After call to refresh"));
-                }
-                MessageHandler?.Invoke(this, new ActionEventArgs(Environment.NewLine + "Ready"));
+                MessageHandler?.Invoke(this, new ActionEventArgs("Ready"));
             }
             catch (Exception)
             {

@@ -253,7 +253,7 @@
     <Compile Include="CapacitorsWindow.xaml.cs">
       <DependentUpon>CapacitorsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ElementsTypes.cs" />
+    <Compile Include="ElementsTypesStorage.cs" />
     <Compile Include="GeneralClasses\StorageTypes.cs" />
     <Compile Include="GeneralClasses\ConnectToExcel.cs" />
     <Compile Include="ComponentsModel\ResistorModel.cs" />

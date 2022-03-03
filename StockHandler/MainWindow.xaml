@@ -60,7 +60,8 @@
             Width="60"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom" 
-            FontSize="12"/>
+            FontSize="12"
+            Command="{Binding FindCommand}"/>
         <Button 
             Name="ButtonAnalogue" 
             Content="Analogue" 
@@ -92,7 +93,8 @@
             Height="22"
             VerticalAlignment="Top"
             Width="60"
-            Command="{Binding EditCommand}"/>
+            Command="{Binding EditCommand}"
+            CommandParameter="{Binding SelectedItem}"/>
         <Button 
             Name="ButtonDelete"
             Content="Delete" 
@@ -103,7 +105,8 @@
             Height="22"
             VerticalAlignment="Top"
             Width="60"
-            Command="{Binding DeleteCommand}"/>
+            Command="{Binding DeleteCommand}"
+            CommandParameter="{Binding SelectedItem}"/>
         <TextBox 
             Name="TextBoxLogOut"
             ScrollViewer.VerticalScrollBarVisibility="Auto" 
@@ -114,7 +117,26 @@
             Grid.Row="1"
             IsReadOnly="true"
             Text="{Binding TextLogOut}"/>
-        <TextBox 
+        <ListBox 
+            Grid.Column="1" 
+            Margin="16,32,3,4"
+            ItemsSource="{Binding Components}"
+            SelectedItem="{Binding SelectedItem}">
+            <!--ItemsSource="{Binding Capacitors}"-->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="4">
+                        <TextBlock FontSize="12" Text="{Binding Path=PartNumber}"/>
+                        <TextBlock FontSize="10" Text="{Binding Path=Capacity}"/>
+                        <TextBlock FontSize="10" Text="{Binding Path=Voltage}"/>
+                        <TextBlock FontSize="10" Text="{Binding Path=TCoefficient}"/>
+                        <TextBlock FontSize="10" Text="{Binding Path=Size}"/>
+                        <TextBlock FontSize="10" Text="{Binding Path=Count}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!--<TextBox 
             Name="TextBoxComponentInfo"
             ScrollViewer.VerticalScrollBarVisibility="Auto" 
             Margin="16,32,3,4" 
@@ -122,7 +144,7 @@
             Grid.Column="1" 
             FontSize="12" 
             IsReadOnly="true"
-            Text="ComponentInfo"/>
+            Text="{Binding ComponentInfo}"/>-->
         <TextBox
             Name="TextBoxInputValue"
             ScrollViewer.VerticalScrollBarVisibility="Disabled" 
@@ -132,7 +154,8 @@
             Height="22" 
             VerticalAlignment="Bottom"
             IsReadOnly="False"
-            FontSize="12"/>
+            FontSize="12"
+            Text="{Binding SelectedFindComponent}"/>
         <Label 
             Content="Find component:" 
             FontSize="12"

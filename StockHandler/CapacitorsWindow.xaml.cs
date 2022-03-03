@@ -20,7 +20,6 @@ namespace StockHandler
     public partial class CapacitorsWindow : Window
     {
         public Capacitor Capacitor { get; private set; }
-        public Resistor Resistor { get; private set; }
         public CapacitorsWindow(Capacitor c)
         {
             InitializeComponent();

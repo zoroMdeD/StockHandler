@@ -99,8 +99,6 @@ namespace StockHandler
 
         public Resistor(ResistorModel resistor, int count)
         {
-            //CapacitorModel temp = (CapacitorModel)components.GetComponent("ABCDEFGHIJK");
-            //temp.
             PartNumber = resistor.PartNumber;
             Resistance = resistor.Resistance;
             Power = resistor.Power;

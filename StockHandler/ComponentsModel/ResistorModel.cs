@@ -8,17 +8,64 @@ namespace StockHandler
 {
     public class ResistorModel : StorageComponents
     {
-        public string Resistance { get; private set; }
-        public string Power { get; private set; }
-        public string Accuracy { get; private set; }
-        public string Size { get; private set; }
+        private string resistance;
+        private string power;
+        private string accuracy;
+        private string size;
+        private int count;
 
-        public ResistorModel(string type, string partNumber, string size, string resistance, string power, string accuracy) : base(type, partNumber)
+        public string Resistance
         {
-            Size = size;
+            get { return resistance; }
+            set
+            {
+                resistance = value;
+                OnPropertyChanged("Resistance");
+            }
+        }
+        public string Power
+        {
+            get { return power; }
+            set
+            {
+                power = value;
+                OnPropertyChanged("Power");
+            }
+        }
+        public string Accuracy
+        {
+            get { return accuracy; }
+            set
+            {
+                accuracy = value;
+                OnPropertyChanged("Accuracy");
+            }
+        }
+        public string Size
+        {
+            get { return size; }
+            set
+            {
+                size = value;
+                OnPropertyChanged("Size");
+            }
+        }
+        public int Count
+        {
+            get { return count; }
+            set
+            {
+                count = value;
+                OnPropertyChanged("Count");
+            }
+        }
+        public ResistorModel(string partNumber, string resistance, string power, string accuracy, string size, int count, int id, string type = "Resistor") : base(type, partNumber, id)
+        {
             Resistance = resistance;
             Power = power;
             Accuracy = accuracy;
+            Size = size;
+            Count = count;
         }
     }
 }

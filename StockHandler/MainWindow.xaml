@@ -62,6 +62,7 @@
             VerticalAlignment="Bottom" 
             FontSize="12"
             Command="{Binding FindCommand}"/>
+        <!--CommandParameter="{Binding SelectedItem}"-->
         <Button 
             Name="ButtonAnalogue" 
             Content="Analogue" 

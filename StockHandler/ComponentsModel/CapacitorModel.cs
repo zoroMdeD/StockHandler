@@ -59,7 +59,11 @@ namespace StockHandler
                 OnPropertyChanged("Count");
             }
         }
-        public CapacitorModel(string partNumber, string capacity, string voltage, string tCoefficient, string size, int count,  string type = "Capacitor") : base(type, partNumber)
+        public CapacitorModel()
+        {
+
+        }
+        public CapacitorModel(string partNumber, string capacity, string voltage, string tCoefficient, string size, int count, int id, string type = "Capacitor") : base(type, partNumber, id)
         {
             Size = size;
             Capacity = capacity;

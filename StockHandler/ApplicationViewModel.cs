@@ -24,8 +24,11 @@ namespace StockHandler
 
         ConnectToExcel connectToExcel;
         private List<string> listOfComponents;
-        public StorageComponents storageComponents;
+        public StorageComponents storageComponents;// = new StorageComponents();
         static BackgroundWorker DocBuild;
+
+        CapacitorModel capacitor;
+        ResistorModel resistor;
 
         private ApplicationContext db;
 
@@ -52,7 +55,6 @@ namespace StockHandler
 
         IEnumerable<Resistor> resistors;
         IEnumerable<Capacitor> capacitors;
-        //IEnumerable<List<StorageComponents>> components;
 
         #region Fields for LaberPercent
         private string percentLoad;
@@ -79,9 +81,9 @@ namespace StockHandler
         private string textSheet;
         #endregion
 
-        private List<StorageComponents> selectedItem;
+        private StorageComponents selectedItem;
 
-        public List<StorageComponents> SelectedItem
+        public StorageComponents SelectedItem
         {
             get { return selectedItem; }
             set
@@ -110,6 +112,7 @@ namespace StockHandler
             }
         }
 
+
         private List<StorageComponents> components;
 
         public List<StorageComponents> Components
@@ -130,10 +133,12 @@ namespace StockHandler
             Resistors = db.Resistors.Local.ToBindingList();
             Capacitors = db.Capacitors.Local.ToBindingList();
             storageComponents = new StorageComponents();
-
             listOfComponents = new List<string>();
             MessageHandler += ShowAction;
-
+            
+            if(capacitor != null)
+                storageComponents.Edit(capacitor, capacitor.Id);
+            
             PercentLoad = $"{CurrentProgress}%";
 
             DocBuild = new BackgroundWorker();
@@ -384,111 +389,32 @@ namespace StockHandler
             { 
                 return findCommand ?? (findCommand = new RelayCommand((o) =>
                 {
-                    //string strOut = string.Empty;
-                    //if (TextType.Contains("Resistors"))
-                    //{
-                    //    var query = from u in Resistors
-                    //                where Regex.Replace(u.Resistance, @"\D+", string.Empty) == Regex.Replace(SelectedFindComponent, @"\D+", string.Empty)
-                    //                select u;
-
-                    //    foreach (var Resistors in query)
-                    //    {
-                    //        strOut = $"PartNumber: {Resistors.PartNumber}" + Environment.NewLine
-                    //                + $"Resistance: {Resistors.Resistance}" + Environment.NewLine
-                    //                + $"Power: {Resistors.Power}" + Environment.NewLine
-                    //                + $"Accuracy: {Resistors.Accuracy}" + Environment.NewLine
-                    //                + $"Size: {Resistors.Size}" + Environment.NewLine
-                    //                + $"Count: {Resistors.Count}" + Environment.NewLine;
-
-                    //        if (ComponentInfo != null)
-                    //            ComponentInfo += Environment.NewLine + $"{strOut}";
-                    //        else
-                    //            ComponentInfo += $"{strOut}";
-                    //    }
-                    //}
-                    //else if(TextType.Contains("Capacitors"))
-                    //{
-                    //    var query = from u in Capacitors
-                    //                where Regex.Replace(u.Capacity, @"\D+", string.Empty) == Regex.Replace(SelectedFindComponent, @"\D+", string.Empty)
-                    //                select u;
-
-                    //    foreach (var Capacitors in query)
-                    //    {
-                    //        strOut = $"PartNumber: {Capacitors.PartNumber}" + Environment.NewLine
-                    //                + $"Capacity: {Capacitors.Capacity}" + Environment.NewLine
-                    //                + $"Voltage: {Capacitors.Voltage}" + Environment.NewLine
-                    //                + $"TCoefficient: {Capacitors.TCoefficient}" + Environment.NewLine
-                    //                + $"Size: {Capacitors.Size}" + Environment.NewLine
-                    //                + $"Count: {Capacitors.Count}" + Environment.NewLine;
-
-                    //        if (ComponentInfo != null)
-                    //            ComponentInfo += Environment.NewLine + $"{strOut}";
-                    //        else
-                    //            ComponentInfo += $"{strOut}";
-                    //    }
-                    //}
-
-                    if (TextType.Contains("Capacitors"))
+                    Components = new List<StorageComponents>();
+                    storageComponents.Clear();
+                    if (TextType.Contains("Resistors"))
                     {
-                        //CapacitorModel capacitorModel;
+                        var query = from u in Resistors
+                                    where Regex.Replace(u.Resistance, @"\D+", string.Empty) == Regex.Replace(SelectedFindComponent, @"\D+", string.Empty)
+                                    select u;
+
+                        foreach (var Resistors in query)
+                        {
+                            storageComponents.Add(new ResistorModel(Resistors.PartNumber, Resistors.Resistance, Resistors.Power, Resistors.Accuracy, Resistors.Size, Resistors.Count, Resistors.Id));
+                        }
+                        Components = storageComponents.GetAll();
+                    }
+                    else if (TextType.Contains("Capacitors"))
+                    {
                         var query = from u in Capacitors
                                     where Regex.Replace(u.Capacity, @"\D+", string.Empty) == Regex.Replace(SelectedFindComponent, @"\D+", string.Empty)
                                     select u;
 
                         foreach (var Capacitors in query)
                         {
-                            //CapacitorModel capacitorModel = new CapacitorModel(Capacitors.PartNumber, Capacitors.Capacity, Capacitors.Voltage, Capacitors.TCoefficient, Capacitors.Size, Capacitors.Count);
-                            storageComponents.Add(new CapacitorModel(Capacitors.PartNumber, Capacitors.Capacity, Capacitors.Voltage, Capacitors.TCoefficient, Capacitors.Size, Capacitors.Count));
-                            //strOut = $"PartNumber: {Capacitors.PartNumber}" + Environment.NewLine
-                            //        + $"Capacity: {Capacitors.Capacity}" + Environment.NewLine
-                            //        + $"Voltage: {Capacitors.Voltage}" + Environment.NewLine
-                            //        + $"TCoefficient: {Capacitors.TCoefficient}" + Environment.NewLine
-                            //        + $"Size: {Capacitors.Size}" + Environment.NewLine
-                            //        + $"Count: {Capacitors.Count}" + Environment.NewLine;
-
-                            //if (ComponentInfo != null)
-                            //    ComponentInfo += Environment.NewLine + $"{strOut}";
-                            //else
-                            //    ComponentInfo += $"{strOut}";
+                            storageComponents.Add(new CapacitorModel(Capacitors.PartNumber, Capacitors.Capacity, Capacitors.Voltage, Capacitors.TCoefficient, Capacitors.Size, Capacitors.Count, Capacitors.Id));
                         }
-                        //if(Components != null)
-                        //    Components.Clear();
-                        Components = storageComponents.GetAll();  //= (IEnumerable<List<StorageComponents>>)storageComponents.GetAll();
-                        
-                        //if (SelectedItem == null)
-                        //    return;
-                        ////Получаем выделенный объект
-                        //Capacitor capacitor = SelectedItem as Capacitor;
-
-                        //Capacitor vm = new Capacitor()
-                        //{
-                        //    Id = capacitor.Id,
-                        //    PartNumber = capacitor.PartNumber,
-                        //    Capacity = capacitor.Capacity,
-                        //    Voltage = capacitor.Voltage,
-                        //    TCoefficient = capacitor.TCoefficient,
-                        //    Size = capacitor.Size,
-                        //    Count = capacitor.Count,
-                        //};
-                        //CapacitorsWindow capacitorsWindow = new CapacitorsWindow(vm);
-
-                        //if (capacitorsWindow.ShowDialog() == true)
-                        //{
-                        //    capacitor = db.Capacitors.Find(capacitorsWindow.Capacitor.Id);     //Получаем измененный объект
-                        //    if (capacitor != null)
-                        //    {
-                        //        capacitor.PartNumber = capacitorsWindow.Capacitor.PartNumber;
-                        //        capacitor.Capacity = capacitorsWindow.Capacitor.Capacity;
-                        //        capacitor.Voltage = capacitorsWindow.Capacitor.Voltage;
-                        //        capacitor.TCoefficient = capacitorsWindow.Capacitor.TCoefficient;
-                        //        capacitor.Size = capacitorsWindow.Capacitor.Size;
-                        //        capacitor.Count = capacitorsWindow.Capacitor.Count;
-                        //        db.Entry(capacitor).State = EntityState.Modified;
-                        //        db.SaveChanges();
-                        //    }
-                        //}
+                        Components = storageComponents.GetAll();
                     }
-
                 }));
             }
         }
@@ -539,7 +465,7 @@ namespace StockHandler
                           if (SelectedItem == null) 
                               return;
                           //Получаем выделенный объект
-                          Resistor resistor = SelectedItem as Resistor;
+                          resistor = SelectedItem as ResistorModel;
 
                           Resistor vm = new Resistor()
                           {
@@ -555,17 +481,27 @@ namespace StockHandler
 
                           if (resistorsWindow.ShowDialog() == true)
                           {
-                              resistor = db.Resistors.Find(resistorsWindow.Resistor.Id);     //Получаем измененный объект
-                              if (resistor != null)
+                              Resistor resistorDB = new Resistor();
+                              //Получаем измененный объект
+                              resistorDB = db.Resistors.Find(resistorsWindow.Resistor.Id);     
+                              if (resistorDB != null)
                               {
-                                  resistor.PartNumber = resistorsWindow.Resistor.PartNumber;
-                                  resistor.Resistance = resistorsWindow.Resistor.Resistance;
-                                  resistor.Power = resistorsWindow.Resistor.Power;
-                                  resistor.Accuracy = resistorsWindow.Resistor.Accuracy;
-                                  resistor.Size = resistorsWindow.Resistor.Size;
-                                  resistor.Count = resistorsWindow.Resistor.Count;
-                                  db.Entry(resistor).State = EntityState.Modified;
+                                  resistorDB.PartNumber = resistorsWindow.Resistor.PartNumber;
+                                  resistorDB.Resistance = resistorsWindow.Resistor.Resistance;
+                                  resistorDB.Power = resistorsWindow.Resistor.Power;
+                                  resistorDB.Accuracy = resistorsWindow.Resistor.Accuracy;
+                                  resistorDB.Size = resistorsWindow.Resistor.Size;
+                                  resistorDB.Count = resistorsWindow.Resistor.Count;
+                                  db.Entry(resistorDB).State = EntityState.Modified;
                                   db.SaveChanges();
+
+                                  resistor.Id = resistorDB.Id;
+                                  resistor.PartNumber = resistorDB.PartNumber;
+                                  resistor.Resistance = resistorDB.Resistance;
+                                  resistor.Power = resistorDB.Power;
+                                  resistor.Accuracy = resistorDB.Accuracy;
+                                  resistor.Size = resistorDB.Size;
+                                  resistor.Count = resistorDB.Count;
                               }
                           }
                       }
@@ -574,7 +510,7 @@ namespace StockHandler
                           if (SelectedItem == null) 
                               return;
                           //Получаем выделенный объект
-                          Capacitor capacitor = SelectedItem as Capacitor;
+                          capacitor = SelectedItem as CapacitorModel;
 
                           Capacitor vm = new Capacitor()
                           {
@@ -590,17 +526,26 @@ namespace StockHandler
 
                           if (capacitorsWindow.ShowDialog() == true)
                           {
-                              capacitor = db.Capacitors.Find(capacitorsWindow.Capacitor.Id);     //Получаем измененный объект
-                              if (capacitor != null)
+                              Capacitor capacitorDB = new Capacitor();
+                              capacitorDB = db.Capacitors.Find(capacitorsWindow.Capacitor.Id);     //Получаем измененный объект
+                              if (capacitorDB != null)
                               {
-                                  capacitor.PartNumber = capacitorsWindow.Capacitor.PartNumber;
-                                  capacitor.Capacity = capacitorsWindow.Capacitor.Capacity;
-                                  capacitor.Voltage = capacitorsWindow.Capacitor.Voltage;
-                                  capacitor.TCoefficient = capacitorsWindow.Capacitor.TCoefficient;
-                                  capacitor.Size = capacitorsWindow.Capacitor.Size;
-                                  capacitor.Count = capacitorsWindow.Capacitor.Count;
-                                  db.Entry(capacitor).State = EntityState.Modified;
+                                  capacitorDB.PartNumber = capacitorsWindow.Capacitor.PartNumber;
+                                  capacitorDB.Capacity = capacitorsWindow.Capacitor.Capacity;
+                                  capacitorDB.Voltage = capacitorsWindow.Capacitor.Voltage;
+                                  capacitorDB.TCoefficient = capacitorsWindow.Capacitor.TCoefficient;
+                                  capacitorDB.Size = capacitorsWindow.Capacitor.Size;
+                                  capacitorDB.Count = capacitorsWindow.Capacitor.Count;
+                                  db.Entry(capacitorDB).State = EntityState.Modified;
                                   db.SaveChanges();
+
+                                  capacitor.Id = capacitorDB.Id;
+                                  capacitor.PartNumber = capacitorDB.PartNumber;
+                                  capacitor.Capacity = capacitorDB.Capacity;
+                                  capacitor.Voltage = capacitorDB.Voltage;
+                                  capacitor.TCoefficient = capacitorDB.TCoefficient;
+                                  capacitor.Size = capacitorDB.Size;
+                                  capacitor.Count = capacitorDB.Count;
                               }
                           }
                       }

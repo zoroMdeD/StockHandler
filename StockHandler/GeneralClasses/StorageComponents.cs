@@ -15,14 +15,14 @@ namespace StockHandler
         private List<StorageComponents> components = new List<StorageComponents>();
         private string type;
         private string partNumber;
-
+        
+        public int Id { get; set; }
         public string Type
         {
             get { return type; }
             set
             {
                 type = value;
-                OnPropertyChanged("Type");
             }
         }
         public string PartNumber
@@ -31,16 +31,7 @@ namespace StockHandler
             set
             {
                 partNumber = value;
-                OnPropertyChanged("PartNumber");
-            }
-        }
-        public List<StorageComponents> Components
-        {
-            get { return components; }
-            private set
-            {
-                components = value;
-                OnPropertyChanged("Components");
+                OnPropertyChanged("PurtNumber");
             }
         }
 
@@ -56,8 +47,9 @@ namespace StockHandler
         /// <summary>
         /// Constructor for inheritors
         /// </summary>
-        public StorageComponents(string type, string partNumber)
+        public StorageComponents(string type, string partNumber, int id)
         {
+            Id = id;
             Type = type;
             PartNumber = partNumber;
             //components = new List<StorageComponents>();
@@ -98,6 +90,22 @@ namespace StockHandler
                 }
             else
                 MessageHandler?.Invoke(this, new ActionEventArgs("The string must not be empty."));
+        }
+        public void Clear()
+        {
+            if(components.Count > 0)
+                components.Clear();
+        }
+        public void Edit(StorageComponents component, int id)
+        {
+            int index = components.FindIndex(find => find.Id == id);
+            components[index] = component;
+        }
+        public int GetIndex(List<StorageComponents> oldComponents, int id)
+        {
+            int index = oldComponents.FindIndex(find => find.Id == id);
+
+            return index;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

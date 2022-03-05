@@ -282,7 +282,7 @@ namespace StockHandler
             }
             catch (Exception ex)
             {
-
+                MessageHandler?.Invoke(this, new ActionEventArgs($"Error: {ex.Message}"));
             }
         }
         private async Task OutData(IProgress<int> p, CancellationToken token, ParserDigiKey parserDigiKey, CancellationTokenSource cts)
@@ -388,10 +388,10 @@ namespace StockHandler
                 return findCommand ?? 
                 (findCommand = new RelayCommand((o) =>
                 {
-                    Components = new List<StorageComponents>();
-                    storageComponents.Clear();
-                    if (TextType.Contains("Resistors"))
+                    if (TextType == "Resistors")
                     {
+                        Components = new List<StorageComponents>();
+                        storageComponents.Clear();
                         var query = from u in Resistors
                                     where !string.IsNullOrEmpty(SelectedFindComponent) ? Regex.Replace(u.Resistance, @"\D+", string.Empty) == Regex.Replace(SelectedFindComponent, @"\D+", string.Empty) : string.IsNullOrEmpty(SelectedFindComponent)
                                     select u;
@@ -402,8 +402,10 @@ namespace StockHandler
                         Components = storageComponents.GetAll();
                         MessageHandler?.Invoke(this, new ActionEventArgs($"Found component(s) by parameter: \"{SelectedFindComponent}\""));
                     }
-                    else if (TextType.Contains("Capacitors"))
+                    else if (TextType == "Capacitors")
                     {
+                        Components = new List<StorageComponents>();
+                        storageComponents.Clear();
                         var query = from u in Capacitors
                                     where !string.IsNullOrEmpty(SelectedFindComponent) ? Regex.Replace(u.Capacity, @"\D+", string.Empty) == Regex.Replace(SelectedFindComponent, @"\D+", string.Empty) : string.IsNullOrEmpty(SelectedFindComponent)
                                     select u;
@@ -415,6 +417,11 @@ namespace StockHandler
                         Components = storageComponents.GetAll();
                         MessageHandler?.Invoke(this, new ActionEventArgs($"Found component(s) by parameter: \"{SelectedFindComponent}\""));
                     }
+                    else
+                    {
+                        MessageBoxResult result;
+                        result = MessageBox.Show("Please select the type of component you want to find to the database", "Type not selected", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
                 }));
             }
         }
@@ -425,7 +432,7 @@ namespace StockHandler
                 return addCommand ??
                 (addCommand = new RelayCommand((o) =>
                 {
-                    if (TextType.Contains("Resistors"))
+                    if (TextType == "Resistors")
                     {
                         ResistorsWindow resistorssWindow = new ResistorsWindow(new Resistor());
                         if (resistorssWindow.ShowDialog() == true)
@@ -436,7 +443,7 @@ namespace StockHandler
                             MessageHandler?.Invoke(this, new ActionEventArgs($"Added component with part number: \"{resistor.PartNumber}\""));
                         }
                     }
-                    else if (TextType.Contains("Capacitors"))
+                    else if (TextType == "Capacitors")
                     {
                         CapacitorsWindow capacitorsWindow = new CapacitorsWindow(new Capacitor());
                         if (capacitorsWindow.ShowDialog() == true)
@@ -462,7 +469,7 @@ namespace StockHandler
                 return editCommand ??
                 (editCommand = new RelayCommand((SelectedItem) =>
                 {
-                    if (TextType.Contains("Resistors"))
+                    if (TextType =="Resistors")
                     {
                         if (SelectedItem == null) 
                             return;
@@ -509,7 +516,7 @@ namespace StockHandler
                             }
                         }
                     }
-                    if (TextType.Contains("Capacitors"))
+                    else if (TextType =="Capacitors")
                     {
                         if (SelectedItem == null) 
                             return;
@@ -555,6 +562,11 @@ namespace StockHandler
                             }
                         }
                     }
+                    else
+                    {
+                        MessageBoxResult result;
+                        result = MessageBox.Show("Please select the type of component you want to edit to the database", "Type not selected", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    }
                 }));
             }
         }
@@ -565,9 +577,9 @@ namespace StockHandler
                 return deleteCommand ??
                 (deleteCommand = new RelayCommand((SelectedItem) =>
                 {
-                    Components = new List<StorageComponents>();
-                    if (TextType.Contains("Resistors"))
+                    if (TextType == "Resistors")
                     {
+                        Components = new List<StorageComponents>();
                         if (SelectedItem == null) 
                             return;
                         //Получаем выделенный объект
@@ -590,8 +602,9 @@ namespace StockHandler
                         Components = storageComponents.GetAll();
                         MessageHandler?.Invoke(this, new ActionEventArgs($"Removed component with part number: \"{resistor.PartNumber}\""));
                     }
-                    else if (TextType.Contains("Capacitors"))
+                    else if (TextType == "Capacitors")
                     {
+                        Components = new List<StorageComponents>();
                         if (SelectedItem == null) 
                             return;
                         //Получаем выделенный объект
@@ -613,6 +626,11 @@ namespace StockHandler
                         storageComponents.Remove(capacitor.Id);
                         Components = storageComponents.GetAll();
                         MessageHandler?.Invoke(this, new ActionEventArgs($"Removed component with part number: \"{capacitor.PartNumber}\""));
+                    }
+                    else
+                    {
+                        MessageBoxResult result;
+                        result = MessageBox.Show("Please select the type of component you want to remove to the database", "Type not selected", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     }
                 }));
             }

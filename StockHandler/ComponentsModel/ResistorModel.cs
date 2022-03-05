@@ -8,37 +8,46 @@ namespace StockHandler
 {
     public class ResistorModel : StorageComponents
     {
-        private string resistance;
-        private string power;
-        private string accuracy;
+        private string propertyOne;
+        private string propertyTwo;
+        private string propertyThree;
         private string size;
         private int count;
 
-        public string Resistance
+        /// <summary>
+        /// Resistance
+        /// </summary>
+        public string PropertyOne
         {
-            get { return resistance; }
+            get { return propertyOne; }
             set
             {
-                resistance = value;
-                OnPropertyChanged("Resistance");
+                propertyOne = value;
+                OnPropertyChanged("PropertyOne");
             }
         }
-        public string Power
+        /// <summary>
+        /// Power
+        /// </summary>
+        public string PropertyTwo
         {
-            get { return power; }
+            get { return propertyTwo; }
             set
             {
-                power = value;
-                OnPropertyChanged("Power");
+                propertyTwo = value;
+                OnPropertyChanged("PropertyTwo");
             }
         }
-        public string Accuracy
+        /// <summary>
+        /// Accuracy
+        /// </summary>
+        public string PropertyThree
         {
-            get { return accuracy; }
+            get { return propertyThree; }
             set
             {
-                accuracy = value;
-                OnPropertyChanged("Accuracy");
+                propertyThree = value;
+                OnPropertyChanged("PropertyThree");
             }
         }
         public string Size
@@ -61,9 +70,9 @@ namespace StockHandler
         }
         public ResistorModel(string partNumber, string resistance, string power, string accuracy, string size, int count, int id, string type = "Resistor") : base(type, partNumber, id)
         {
-            Resistance = resistance;
-            Power = power;
-            Accuracy = accuracy;
+            PropertyOne = resistance;
+            PropertyTwo = power;
+            PropertyThree = accuracy;
             Size = size;
             Count = count;
         }

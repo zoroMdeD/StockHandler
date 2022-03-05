@@ -11,6 +11,6 @@ namespace StockHandler
         List<StorageComponents> GetAll();
         StorageComponents GetComponent(string partNumber);
         void Add(StorageComponents component);
-        void Remove(string partNumber);
+        void Remove(int id);
     }
 }

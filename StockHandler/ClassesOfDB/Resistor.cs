@@ -40,7 +40,7 @@ namespace StockHandler
             set
             {
                 resistance = value;
-                OnPropertyChanged("Resistance");
+                OnPropertyChanged("Property_1");
             }
         }
         public string Power
@@ -52,7 +52,7 @@ namespace StockHandler
             set
             {
                 power = value;
-                OnPropertyChanged("Power");
+                OnPropertyChanged("Property_2");
             }
         }
         public string Accuracy
@@ -64,7 +64,7 @@ namespace StockHandler
             set
             {
                 accuracy = value;
-                OnPropertyChanged("Accuracy");
+                OnPropertyChanged("Property_3");
             }
         }
         public string Size
@@ -97,15 +97,15 @@ namespace StockHandler
 
         }
 
-        public Resistor(ResistorModel resistor, int count)
-        {
-            PartNumber = resistor.PartNumber;
-            Resistance = resistor.Resistance;
-            Power = resistor.Power;
-            Accuracy = resistor.Accuracy;
-            Size = resistor.Size;
-            Count = count;
-        }
+        //public Resistor(ResistorModel resistor, int count)
+        //{
+        //    PartNumber = resistor.PartNumber;
+        //    Resistance = resistor.Resistance;
+        //    Power = resistor.Power;
+        //    Accuracy = resistor.Accuracy;
+        //    Size = resistor.Size;
+        //    Count = count;
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

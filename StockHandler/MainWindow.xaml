@@ -16,10 +16,8 @@
         ResizeMode="CanResize">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="34*" 
-                />
+            <RowDefinition Height="78*"/>
             <RowDefinition Height="34*"/>
-
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition 
@@ -127,10 +125,10 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="4">
-                        <TextBlock FontSize="12" Text="{Binding Path=PartNumber}"/>
-                        <TextBlock FontSize="10" Text="{Binding Path=Capacity}"/>
-                        <TextBlock FontSize="10" Text="{Binding Path=Voltage}"/>
-                        <TextBlock FontSize="10" Text="{Binding Path=TCoefficient}"/>
+                        <TextBlock FontSize="10" FontWeight="Bold" Text="{Binding Path=PartNumber}"/>
+                        <TextBlock FontSize="10" Text="{Binding Path=PropertyOne}"/>
+                        <TextBlock FontSize="10" Text="{Binding Path=PropertyTwo}"/>
+                        <TextBlock FontSize="10" Text="{Binding Path=PropertyThree}"/>
                         <TextBlock FontSize="10" Text="{Binding Path=Size}"/>
                         <TextBlock FontSize="10" Text="{Binding Path=Count}"/>
                     </StackPanel>
@@ -185,7 +183,9 @@
         <StackPanel  
             Grid.Column="2"
             Grid.Row="0" 
-            Margin="14,58,16,0">
+            Margin="14,58,16,0"
+            Height="22" 
+            VerticalAlignment="Top">
             <StackPanel.Resources>
                 <local:ElementsTypesStorage x:Key="Types"/>
             </StackPanel.Resources>
@@ -212,7 +212,7 @@
             Height="22" 
             VerticalAlignment="Bottom">
             <ComboBox 
-                Name="ComboBoxSelectSheet"
+                x:Name="ComboBoxSelectSheet"
                 ItemsSource="{Binding ListOfSheets}"
                 SelectedValue="{Binding TextSheet}"
                 IsEditable="true"

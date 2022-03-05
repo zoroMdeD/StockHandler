@@ -52,7 +52,6 @@ namespace StockHandler
             Id = id;
             Type = type;
             PartNumber = partNumber;
-            //components = new List<StorageComponents>();
         }
 
         public List<StorageComponents> GetAll()
@@ -68,28 +67,27 @@ namespace StockHandler
                         return item;
                 }
             else
-                MessageHandler?.Invoke(this, new ActionEventArgs("The string must not be empty."));
+                MessageHandler?.Invoke(this, new ActionEventArgs("The string must not be empty"));
             return null;
         }
         public void Add(StorageComponents component)
         {
             components.Add(component);
-            MessageHandler?.Invoke(this, new ActionEventArgs("Component added."));
+            //MessageHandler?.Invoke(this, new ActionEventArgs("Component added."));
         }
-        public void Remove(string partNumber)
+        public void Remove(int id)
         {
-            if (partNumber.Length > 0)
+            if (id >= 0)
                 for (int i = 0; i < components.Count; i++)
                 {
-                    if (components[i].PartNumber == partNumber)
+                    if (components[i].Id == id)
                     {
                         components.Remove(components[i]);
-                        MessageHandler?.Invoke(this, new ActionEventArgs($"Component with part number {partNumber} removed."));
                         break;
                     }
                 }
             else
-                MessageHandler?.Invoke(this, new ActionEventArgs("The string must not be empty."));
+                MessageHandler?.Invoke(this, new ActionEventArgs("The Id must not be less than zero"));
         }
         public void Clear()
         {

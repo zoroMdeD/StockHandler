@@ -8,37 +8,46 @@ namespace StockHandler
 {
     public class CapacitorModel : StorageComponents
     {
-        private string capacity;
-        private string voltage;
-        private string tCoefficient;
+        private string propertyOne;
+        private string propertyTwo;
+        private string propertyThree;
         private string size;
         private int count;
 
-        public string Capacity
+        /// <summary>
+        /// Capacity
+        /// </summary>
+        public string PropertyOne
         {
-            get { return capacity; }
+            get { return propertyOne; }
             set
             {
-                capacity = value;
-                OnPropertyChanged("Capacity");
+                propertyOne = value;
+                OnPropertyChanged("PropertyOne");
             }
         }
-        public string Voltage
+        /// <summary>
+        /// Voltage
+        /// </summary>
+        public string PropertyTwo
         {
-            get { return voltage; }
+            get { return propertyTwo; }
             set
             {
-                voltage = value;
-                OnPropertyChanged("Voltage");
+                propertyTwo = value;
+                OnPropertyChanged("PropertyTwo");
             }
         }
-        public string TCoefficient
+        /// <summary>
+        /// TCoefficient
+        /// </summary>
+        public string PropertyThree
         {
-            get { return tCoefficient; }
+            get { return propertyThree; }
             set
             {
-                tCoefficient = value;
-                OnPropertyChanged("TCoefficient");
+                propertyThree = value;
+                OnPropertyChanged("PropertyThree");
             }
         }
         public string Size
@@ -66,9 +75,9 @@ namespace StockHandler
         public CapacitorModel(string partNumber, string capacity, string voltage, string tCoefficient, string size, int count, int id, string type = "Capacitor") : base(type, partNumber, id)
         {
             Size = size;
-            Capacity = capacity;
-            Voltage = voltage;
-            TCoefficient = tCoefficient;
+            PropertyOne = capacity;
+            PropertyTwo = voltage;
+            PropertyThree = tCoefficient;
             Count = count;
         }
     }

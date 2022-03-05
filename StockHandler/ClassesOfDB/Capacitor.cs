@@ -97,17 +97,17 @@ namespace StockHandler
 
         }
 
-        public Capacitor(CapacitorModel capacitor, int count)
-        {
-            //CapacitorModel temp = (CapacitorModel)components.GetComponent("ABCDEFGHIJK");
-            //temp.
-            PartNumber = capacitor.PartNumber;
-            Capacity = capacitor.Capacity;
-            Voltage = capacitor.Voltage;
-            TCoefficient = capacitor.TCoefficient;
-            Size = capacitor.Size;
-            Count = count;
-        }
+        //public Capacitor(CapacitorModel capacitor, int count)
+        //{
+        //    //CapacitorModel temp = (CapacitorModel)components.GetComponent("ABCDEFGHIJK");
+        //    //temp.
+        //    PartNumber = capacitor.PartNumber;
+        //    Capacity = capacitor.Capacity;
+        //    Voltage = capacitor.Voltage;
+        //    TCoefficient = capacitor.TCoefficient;
+        //    Size = capacitor.Size;
+        //    Count = count;
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
